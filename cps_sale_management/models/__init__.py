@@ -16,7 +16,7 @@ from . import cps_product_traitement_liste
 from . import product_attribute_value
 from . import cps_stock_move
 from . import mrp_workcenter
-from . import mrp_routing
+# from . import mrp_routing
 from . import mrp_routing_workcenter
 from . import mrp_bom
 from . import mrp_bom_line

@@ -30,7 +30,7 @@ class CpsProductTemplate(models.Model):
     product_tmpl_production_ids = fields.One2many("cps.product.production", 'product_tmpl_id', "Template production")
     product_tmpl_echantillon_ids = fields.One2many("cps.product.echantillon", 'product_tmpl_id', "Template echantillon")
     traitement_name = fields.Char(compute='compute_traitement_name', string='Traitement')
-    route_ids = fields.One2many("mrp.routing", "template_id", string="Routes")
+    # route_ids = fields.One2many("mrp.routing", "template_id", string="Routes")
     route_count = fields.Integer(compute='compute_count_route')
     bom_ids = fields.One2many("mrp.bom", "template_id", string="Nomenclatures")
     bom_count = fields.Integer(compute='compute_count_bom')
