@@ -51,7 +51,7 @@ class CpsProductTemplate(models.Model):
     livraison_line_ids = fields.One2many("stock.move", 'product_template_livraison_id', string="Liste des livraisons", domain= '[("to_refund", "=", False)]')
     reception_ids= fields.One2many("stock.picking", 'product_template_reception_id', string="Liste des mvts d'entrée", domain='[("state", "!=", "cancel")]')
     livraison_ids = fields.One2many("stock.picking", 'product_template_livraison_id', string="Liste des mvts de livraisons")
-    date_livraison = fields.Datetime(related='livraison_line_ids.date_expected', string="Date de livraison")
+    date_livraison = fields.Datetime(related='livraison_line_ids.scheduled_date', string="Date de livraison")
     type_article_id = fields.Many2one('product.category', 'Type article', required=True, domain="[('id', 'child_of', 2)]")
     type_article_name = fields.Char(related='type_article_id.name', string='Type')
     product_id = fields.Many2one('product.product', 'Produit Odoo')
@@ -75,7 +75,7 @@ class CpsProductTemplate(models.Model):
     fiche_procede_ids = fields.One2many('fiche.procede', 'template_id', string="Fiches procédés")
     procede_count = fields.Integer(compute='compute_count_procede')
     name = fields.Char("name", compute='compute_name', store=True)
-    date_de_reception = fields.Datetime(related='reception_line_ids.date_expected', string="Date de reception")
+    date_de_reception = fields.Datetime(related='reception_line_ids.scheduled_date', string="Date de reception")
 
     @api.depends('type_article_id', 'reference', 'coloriss_client')
     def compute_name(self):
@@ -203,7 +203,7 @@ class CpsProductTemplate(models.Model):
             totalEntree = 0
             entrees = self.env['stock.picking'].search([("state", "!=", "cancel"),("product_template_reception_id", "=", p.id),("origin", "not ilike", "Retour"),('location_dest_id','=',self.env['res.config.settings'].get_reception_type().default_location_dest_id.id)])
             for entree in entrees.move_ids_without_package:
-                if date.today().strftime('%Y-%m-%d')== entree.date_expected.strftime('%Y-%m-%d'):
+                if date.today().strftime('%Y-%m-%d')== entree.scheduled_date.strftime('%Y-%m-%d'):
                     totalEntree+=entree.product_uom_qty
             p.total_entree_jour=totalEntree
 
@@ -228,7 +228,7 @@ class CpsProductTemplate(models.Model):
             totalsortie = 0
             sorties = self.env['stock.picking'].search([("state", "!=", "cancel"),("product_template_livraison_id", "=", p.id),("origin", "not ilike", "Retour"),('location_id','=',self.env['res.config.settings'].get_livraison_type().default_location_src_id.id)])
             for sortie in sorties.move_ids_without_package:
-                if date.today().strftime('%Y-%m-%d')== sortie.date_expected.strftime('%Y-%m-%d'):
+                if date.today().strftime('%Y-%m-%d')== sortie.scheduled_date.strftime('%Y-%m-%d'):
                     totalsortie+=sortie.product_uom_qty
             p.total_sortie_jour=totalsortie
 

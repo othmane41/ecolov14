@@ -114,35 +114,35 @@ class CpsProductProduction(models.Model):
             if filter_condition == 'today':
                 date_filter = date.today().strftime('%Y-%m-%d')
                 # print('date_filter-----------------------', date_filter)
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.date_expected.strftime('%Y-%m-%d') == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.scheduled_date.strftime('%Y-%m-%d') == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'yesterday':
                 date_filter = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.date_expected.strftime('%Y-%m-%d') == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.scheduled_date.strftime('%Y-%m-%d') == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'this_week':
                 date_filter = date.today().isocalendar()[1]
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.date_expected.isocalendar()[1] == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.scheduled_date.isocalendar()[1] == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'last_week':
                 date_filter = 52 if date.today().isocalendar()[1] - 1 == 0 else date.today().isocalendar()[1] - 1
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.date_expected.isocalendar()[1] == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.scheduled_date.isocalendar()[1] == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'this_month':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').month
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'last_month':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').month - 1 if datetime.strptime(str(date.today()), '%Y-%m-%d').month - 1 > 0 else 12
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'this_year':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').year
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             elif filter_condition == 'last_year':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').year-1
-                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter and t.picking_id.sale_id.id is not False):
+                for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter and t.picking_id.sale_id.id is not False):
                     totalsortie += e.product_uom_qty
             else:
                 for e in p.livraison_line_ids.filtered(lambda t: t.product_template_livraison_id.id == p.product_tmpl_id.id and t.location_id.id == source_location and t.picking_id.sale_id.id is not False):
@@ -158,35 +158,35 @@ class CpsProductProduction(models.Model):
             dest_location = self.env['res.config.settings'].get_reception_type().default_location_dest_id.id
             if filter_condition == 'today':
                 date_filter = date.today().strftime('%Y-%m-%d')
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.date_expected.strftime('%Y-%m-%d') == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.scheduled_date.strftime('%Y-%m-%d') == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'yesterday':
                 date_filter = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.date_expected.strftime('%Y-%m-%d') == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.scheduled_date.strftime('%Y-%m-%d') == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'this_week':
                 date_filter = date.today().isocalendar()[1]
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.date_expected.isocalendar()[1] == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.scheduled_date.isocalendar()[1] == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'last_week':
                 date_filter = 52 if date.today().isocalendar()[1] - 1 == 0 else date.today().isocalendar()[1] - 1
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.date_expected.isocalendar()[1] == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and t.scheduled_date.isocalendar()[1] == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'this_month':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').month
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'last_month':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').month - 1 if datetime.strptime(str(date.today()), '%Y-%m-%d').month - 1 > 0 else 12
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').month == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'this_year':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').year
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter):
                     totalentree += e.product_uom_qty
             elif filter_condition == 'last_year':
                 date_filter = datetime.strptime(str(date.today()), '%Y-%m-%d').year-1
-                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.date_expected.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter):
+                for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location and datetime.strptime(t.scheduled_date.strftime('%Y-%m-%d'), '%Y-%m-%d').year == date_filter):
                     totalentree += e.product_uom_qty
             else:
                 for e in p.reception_line_ids.filtered(lambda t: t.product_template_reception_id.id == p.product_tmpl_id.id and t.location_dest_id.id == dest_location):
@@ -220,12 +220,12 @@ class CpsProductProduction(models.Model):
             dest_location = self.env['res.config.settings'].get_reception_type().default_location_dest_id.id
             query = "SELECT cps_product_production.id FROM stock_move left join cps_product_production on stock_move.product_template_livraison_id=cps_product_production.product_tmpl_id"
             where = " and origin not like '%Retour%' and location_id=" + str(dest_location)
-            date_field = "date_expected"
+            date_field = "scheduled_date"
         elif active_view_name == "cps.product.production.reception.tree":
             source_location = self.env['res.config.settings'].get_livraison_type().default_location_src_id.id
             query = "SELECT cps_product_production.id FROM stock_move left join cps_product_production on stock_move.product_template_reception_id=cps_product_production.product_tmpl_id"
             where = " and location_dest_id=" + str(source_location)
-            date_field = "date_expected"
+            date_field = "scheduled_date"
         if filter_condition =='today':
             date_filter = date.today().strftime('%Y-%m-%d')
             query += " where " + date_field + "::TIMESTAMP::DATE = '" + date_filter + "'" + where
